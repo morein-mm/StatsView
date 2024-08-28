@@ -88,7 +88,7 @@ class StatView @JvmOverloads constructor(
         var firstColor = 0
         data.forEachIndexed { index, datum ->
             val el = datum / data.sum()
-            var angle = el * 360F
+            val angle = el * 360F
 //            val angle = datum * 360F
             paint.color = colors.getOrElse(index) { generateRandomColor() }
             if (index == 0 ) {
