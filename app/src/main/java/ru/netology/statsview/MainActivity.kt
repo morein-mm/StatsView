@@ -14,8 +14,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
         findViewById<StatView>(R.id.statsView).data = listOf(
-            0.25F,
-            0.25F,
+            500F,
+            500F,
+            500F,
+            500F,
+//            0.25F,
+//            0.25F,
+//            0.25F,
+//            0.25F,
         )
 //        setContent {
 //            StatsViewTheme {
