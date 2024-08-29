@@ -1,6 +1,9 @@
 package ru.netology.statsview
 
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +16,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
-        findViewById<StatView>(R.id.statsView).data = listOf(
+        val view = findViewById<StatView>(R.id.statsView)
+        view.data = listOf(
             500F,
             500F,
             500F,
@@ -23,6 +27,27 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 //            0.25F,
 //            0.25F,
         )
+        val textView = findViewById<TextView>(R.id.label)
+
+        view.startAnimation(
+            AnimationUtils.loadAnimation(this, R.anim.animation).apply {
+                setAnimationListener(object : Animation.AnimationListener{
+                    override fun onAnimationStart(animation: Animation?) {
+                        textView.setText("onAnimationStart")
+                    }
+
+                    override fun onAnimationEnd(animation: Animation?) {
+                        textView.setText("onAnimationEnd")
+                    }
+
+                    override fun onAnimationRepeat(animation: Animation?) {
+                        textView.setText("onAnimationRepeat")
+                    }
+
+                })
+            }
+        )
+
 //        setContent {
 //            StatsViewTheme {
 //                // A surface container using the 'background' color from the theme
