@@ -1,5 +1,8 @@
 package ru.netology.statsview.ui
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -7,6 +10,7 @@ import android.graphics.PointF
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.core.content.withStyledAttributes
 import ru.netology.statsview.R
 import ru.netology.statsview.utils.AndroidUtils
@@ -28,6 +32,9 @@ class StatView @JvmOverloads constructor(
     private var lineWigth = AndroidUtils.dp(context, 5).toFloat()
     private var colors = emptyList<Int>()
 
+    private var progress = 0F
+    private var valueAnimator: ValueAnimator? = null
+
     init {
         context.withStyledAttributes(attributeSet, R.styleable.StatView) {
             textSize = getDimension(R.styleable.StatView_textSize, textSize)
@@ -44,7 +51,8 @@ class StatView @JvmOverloads constructor(
     var data: List<Float> = emptyList()
         set(value) {
             field = value
-            invalidate()
+//            invalidate()
+            update()
         }
     private var radius = 0F
     private var center = PointF()
@@ -83,15 +91,30 @@ class StatView @JvmOverloads constructor(
             return
         }
 
+
         var startAngle = -90F
+        var firstColor = 0
         data.forEachIndexed { index, datum ->
+//            val el = datum / data.sum()
+//            val angle = el * 360F
             val angle = datum * 360F
             paint.color = colors.getOrElse(index) { generateRandomColor() }
-            canvas.drawArc(oval, startAngle, angle, false, paint)
+//            if (index == 0 ) {
+//                firstColor = paint.color
+//            }
+            canvas.drawArc(oval, startAngle + 360F * progress, angle * progress, false, paint)
             startAngle += angle
         }
+
+//        if (data.size > 1) {
+//            paint.color = firstColor
+//            canvas.drawArc(oval, -90F, 1F, false, paint)
+//        }
+
         canvas.drawText(
+//            "%.2f%%".format(data.sum() * 100),
             "%.2f%%".format(data.sum() * 100),
+//            "100.00%",
             center.x,
             center.y + textPaint.textSize / 4,
             textPaint
@@ -99,4 +122,25 @@ class StatView @JvmOverloads constructor(
     }
 
     private fun generateRandomColor() = Random.nextInt(0xFF000000.toInt(), 0xFFFFFFFF.toInt())
+
+    private fun update() {
+        valueAnimator?.let {
+            it.removeAllListeners()
+            it.cancel()
+        }
+        progress = 0F
+
+        valueAnimator = ValueAnimator.ofFloat(0F, 1F).apply {
+            addUpdateListener { anim ->
+                progress = anim.animatedValue as Float
+                invalidate()
+            }
+            duration = 10000
+            interpolator = LinearInterpolator()
+        }.also {
+            it.start()
+        }
+
+
+    }
 }
