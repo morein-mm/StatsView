@@ -18,35 +18,35 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 //        setContentView(R.layout.activity_main)
         val view = findViewById<StatView>(R.id.statsView)
         view.data = listOf(
-            500F,
-            500F,
-            500F,
-            500F,
-//            0.25F,
-//            0.25F,
-//            0.25F,
-//            0.25F,
+//            500F,
+//            500F,
+//            500F,
+//            500F,
+            0.25F,
+            0.25F,
+            0.25F,
+            0.25F,
         )
         val textView = findViewById<TextView>(R.id.label)
 
-        view.startAnimation(
-            AnimationUtils.loadAnimation(this, R.anim.animation).apply {
-                setAnimationListener(object : Animation.AnimationListener{
-                    override fun onAnimationStart(animation: Animation?) {
-                        textView.setText("onAnimationStart")
-                    }
-
-                    override fun onAnimationEnd(animation: Animation?) {
-                        textView.setText("onAnimationEnd")
-                    }
-
-                    override fun onAnimationRepeat(animation: Animation?) {
-                        textView.setText("onAnimationRepeat")
-                    }
-
-                })
-            }
-        )
+//        view.startAnimation(
+//            AnimationUtils.loadAnimation(this, R.anim.animation).apply {
+//                setAnimationListener(object : Animation.AnimationListener{
+//                    override fun onAnimationStart(animation: Animation?) {
+//                        textView.setText("onAnimationStart")
+//                    }
+//
+//                    override fun onAnimationEnd(animation: Animation?) {
+//                        textView.setText("onAnimationEnd")
+//                    }
+//
+//                    override fun onAnimationRepeat(animation: Animation?) {
+//                        textView.setText("onAnimationRepeat")
+//                    }
+//
+//                })
+//            }
+//        )
 
 //        setContent {
 //            StatsViewTheme {
